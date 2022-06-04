@@ -39,7 +39,7 @@ const Home = () => {
           dispatch(setMovies(tempMovies))
           setLoading(false)
         })
-    }, [])
+    }, [dispatch])
   return (
     <Container>
         <ImgSlider />

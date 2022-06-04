@@ -128,7 +128,7 @@ const Header = () => {
                 dispatch(setUserLogin(userData))
            }
         })
-    }, [])
+    }, [dispatch])
   return (
     <Nav>
         <Logo src="/images/logo.svg" />

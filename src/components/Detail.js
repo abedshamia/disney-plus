@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import db from '../firebase'
 const Container = styled.div `
     min-height: calc(100vh - 70px);
@@ -122,7 +122,7 @@ const Detail = () => {
                 console.log('No such document!');
             }
         })
-    }, [])
+    }, [id])
     
   return (
     <Container>
