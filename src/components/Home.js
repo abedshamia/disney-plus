@@ -27,6 +27,7 @@ const Container = styled.main `
 const Home = () => {
 
   const dispatch = useDispatch();
+  const [loading, setLoading] = React.useState(true);
     useEffect(() => {
         db.collection('movies').onSnapshot(snapshot => {
           let tempMovies = snapshot.docs.map(doc => {
@@ -36,13 +37,14 @@ const Home = () => {
             }
           })
           dispatch(setMovies(tempMovies))
+          setLoading(false)
         })
     }, [])
   return (
     <Container>
         <ImgSlider />
         <Viewers />
-        <Movies />
+        <Movies loading={loading} />
     </Container>
   )
 }

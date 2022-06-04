@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { selectMovies } from '../features/movie/movieSlice'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import LoadingSpinner from './LoadingSpinner'
 const Container = styled.div `
 
 
@@ -33,14 +34,17 @@ const Wrap = styled.div `
         border-color: rgba(249, 249, 249, 0.8);
     }
 `
-const Movies = () => {
+const Movies = ({loading}) => {
     const movies = useSelector(selectMovies)
 
   return (
     <Container>
         <h4>Recommended for You</h4>
+        {
+                loading && <LoadingSpinner />
+     }
         <Content>
-            {movies && movies.map(movie => (
+            { movies && movies.map(movie => (
                 <Wrap key={movie.id}>
                     <Link to={`/movies/${movie.id}`}>
                     <img src={movie.cardImg} alt={movie.title} />
