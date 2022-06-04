@@ -110,7 +110,7 @@ const Detail = () => {
 
     const { id } = useParams();
 
-    const [movie, setMovie] = React.useState({});
+    const [movie, setMovie] = React.useState(null);
 
     useEffect(() => {
 
@@ -129,7 +129,7 @@ const Detail = () => {
         {movie && (
             <>
         <Background>
-            <img src={movie.image} alt='detail-background' />
+            <img src={movie.backgroundImg} alt='detail-background' />
         </Background>
         <ImageTitle>
             <img src={movie.titleImg} alt='detail-title' />
@@ -151,7 +151,7 @@ const Detail = () => {
             </GroupWatchButton>
         </Controls>
         <Subtitle>
-            {movie.subtitle}
+            {movie.subTitle}
         </Subtitle>
         <Description>
            {movie.description} 

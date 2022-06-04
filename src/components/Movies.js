@@ -43,7 +43,7 @@ const Movies = () => {
             {movies && movies.map(movie => (
                 <Wrap key={movie.id}>
                     <Link to={`/movies/${movie.id}`}>
-                    <img src={movie.image} alt={movie.title} />
+                    <img src={movie.cardImg} alt={movie.title} />
                     </Link>
                 </Wrap>
             ))}
