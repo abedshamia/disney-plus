@@ -1,15 +1,15 @@
 // Add json data to firestore
 
-const firebase = require("firebase");
+const firebase = require("firebase/app");
 
 // Required for side-effects
 require("firebase/firestore");
 
 // Initialize Cloud Firestore through Firebase
 firebase.initializeApp({
-  apiKey: "AIzaSyDBdWO9zKaQ2UjLW6XVmy69I9pP1rPJS-Y",
-  authDomain: "disney-plus-clone-23ce8.firebaseapp.com",
-  projectId: "disney-plus-clone-23ce8",
+  apiKey: "AIzaSyC201eboSRvLPSceG5AGZwLk-jK4b3HCeE",
+  authDomain: "disney-plus-45d49.firebaseapp.com",
+  projectId: "disney-plus-45d49",
 });
 
 var db = firebase.firestore();
