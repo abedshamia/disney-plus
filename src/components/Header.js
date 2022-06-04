@@ -1,6 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
+import {  selectUserName, selectUserPhoto, setSignOut, setUserLogin } from '../features/user/userSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import {auth, provider} from '../firebase'
+import { useNavigate } from 'react-router-dom'
 const Nav = styled.nav `
 height: 70px;
 background: #090b13;
@@ -58,12 +62,86 @@ const UserImg = styled.img `
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    cursor: pointer;
+`
+
+const Login = styled.button `
+
+    border: 1px solid #f9f9f9;
+    padding: 8px 16px;
+    border-radius: 4px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+    
+    &:hover {
+        background-color: #f9f9f9;
+        color: #000;
+        border-color: transparent;
+    }
+`
+
+const LoginContainer = styled.div `
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
 `
 const Header = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const userName = useSelector(selectUserName)
+    const userPhoto = useSelector(selectUserPhoto)
+   
+    const signIn = () => {
+        auth.signInWithPopup(provider).then((result) => {
+            const user = result.user
+            const userData = {
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL
+            }
+            dispatch(setUserLogin(userData))
+            navigate('/')
+        })
+    }
+
+    const signOut = () => {
+        auth.signOut().then(() => {
+            dispatch(setSignOut())
+            navigate('/')
+        })
+    }
+
+
+    // Fix the user state on refresh, if user is logged in
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+           if(user) {
+                const userData = {
+                     name: user.displayName,
+                     email: user.email,
+                     photo: user.photoURL
+                }
+                dispatch(setUserLogin(userData))
+           }
+        })
+    }, [])
   return (
     <Nav>
         <Logo src="/images/logo.svg" />
-        <NavMenu>
+        {
+            !userName ? (
+            <LoginContainer>
+                <Login
+                onClick={signIn}
+                >Login</Login>
+            </LoginContainer>
+            ) :
+            <>
+            <NavMenu>
             <a>
                 <img src='/images/home-icon.svg' alt='home-link' />
                 <span>HOME</span>
@@ -90,7 +168,10 @@ const Header = () => {
             </a>
              </NavMenu>
 
-             <UserImg src='https://avatars.githubusercontent.com/u/73759748?v=4' />
+             <UserImg src={userPhoto} onClick={signOut} />
+            </>
+        }
+
     </Nav>
   )
 }
