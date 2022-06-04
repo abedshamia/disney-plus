@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { selectMovies } from '../features/movie/movieSlice'
+import { useSelector } from 'react-redux'
 const Container = styled.div `
 
 
@@ -32,34 +33,17 @@ const Wrap = styled.div `
     }
 `
 const Movies = () => {
+    const movies = useSelector(selectMovies)
+
   return (
     <Container>
         <h4>Recommended for You</h4>
         <Content>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-1' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-2' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-3' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-4' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-4' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-4' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-4' />
-        </Wrap>
-        <Wrap>
-            <img src='images/viewers-disney.png' alt='movies-4' />
-        </Wrap>
+            {movies && movies.map(movie => (
+                <Wrap key={movie.id}>
+                    <img src={movie.image} alt={movie.title} />
+                </Wrap>
+            ))}
             </Content>
     </Container>
   )
