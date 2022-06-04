@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { selectMovies } from '../features/movie/movieSlice'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 const Container = styled.div `
 
 
@@ -41,7 +42,9 @@ const Movies = () => {
         <Content>
             {movies && movies.map(movie => (
                 <Wrap key={movie.id}>
+                    <Link to={`/movies/${movie.id}`}>
                     <img src={movie.image} alt={movie.title} />
+                    </Link>
                 </Wrap>
             ))}
             </Content>

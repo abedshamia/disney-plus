@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import db from '../firebase'
 const Container = styled.div `
     min-height: calc(100vh - 70px);
     padding: 0 calc(3.5vw + 5px);
@@ -105,13 +107,32 @@ const Description = styled.div `
 
 `
 const Detail = () => {
+
+    const { id } = useParams();
+
+    const [movie, setMovie] = React.useState({});
+
+    useEffect(() => {
+
+        db.collection('movies').doc(id).get()
+        .then(doc => {
+            if(doc.exists) {
+                setMovie(doc.data())
+            } else {
+                console.log('No such document!');
+            }
+        })
+    }, [])
+    
   return (
     <Container>
+        {movie && (
+            <>
         <Background>
-            <img src='/images/viewers-marvel.png' alt='detail-background' />
+            <img src={movie.image} alt='detail-background' />
         </Background>
         <ImageTitle>
-            <img src='/images/viewers-marvel.png' alt='detail-title' />
+            <img src={movie.titleImg} alt='detail-title' />
         </ImageTitle>
         <Controls>
             <PlayButton>
@@ -130,11 +151,13 @@ const Detail = () => {
             </GroupWatchButton>
         </Controls>
         <Subtitle>
-            2018 . 7m . Family, Fantasy, Kids, Animation
+            {movie.subtitle}
         </Subtitle>
         <Description>
-            A family is forced to live in a home that is haunted by ghostly apparitions. When the family discovers a ghostly presence in the house, they must find a way to communicate with it. The family's only hope is to find a way to communicate with the apparition. 
+           {movie.description} 
         </Description>
+            </>
+        )}
     </Container>
   )
 }
